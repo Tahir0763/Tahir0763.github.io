@@ -127,10 +127,14 @@ export const generateCV = () => {
         // Role & Company
         doc.setFont("helvetica", "bold");
         doc.setFontSize(10);
-        // Indent role more to avoid overlap with date
-        doc.text(`${exp.role},`, margin + 35, y);
+
+        const roleText = `${exp.role},`;
+        doc.text(roleText, margin + 35, y);
+        const roleWidth = doc.getTextWidth(roleText);
+
         doc.setFont("helvetica", "italic");
-        doc.text(` ${exp.company}`, margin + 35 + doc.getTextWidth(`${exp.role},`), y);
+        // Use the calculated bold width plus a small buffer
+        doc.text(` ${exp.company}`, margin + 35 + roleWidth + 2, y);
 
         y += 6;
 
@@ -143,7 +147,7 @@ export const generateCV = () => {
             doc.text(bullet, margin + 35, y);
             const splitDetail = doc.splitTextToSize(detail, pageWidth - (margin * 2) - 40);
             doc.text(splitDetail, margin + 40, y);
-            y += (splitDetail.length * 5) + 2; // Increased line height
+            y += (splitDetail.length * 5) + 2;
         });
         y += 5;
     });
@@ -162,9 +166,13 @@ export const generateCV = () => {
         // Title & Type
         doc.setFont("helvetica", "bold");
         doc.setFontSize(10);
-        doc.text(`${proj.title},`, margin + 35, y);
+
+        const titleText = `${proj.title},`;
+        doc.text(titleText, margin + 35, y);
+        const titleWidth = doc.getTextWidth(titleText);
+
         doc.setFont("helvetica", "italic");
-        doc.text(` Personal Project`, margin + 35 + doc.getTextWidth(`${proj.title},`), y);
+        doc.text(` Personal Project`, margin + 35 + titleWidth + 2, y);
         y += 6;
 
         // Description
