@@ -77,7 +77,7 @@ export const generateCV = () => {
 
     const splitSummary = doc.splitTextToSize(summaryText, pageWidth - (margin * 2));
     doc.text(splitSummary, margin, y);
-    y += (splitSummary.length * 5) + 5;
+    y += (splitSummary.length * 6) + 6; // Increased spacing
 
 
     // --- Education ---
@@ -86,10 +86,11 @@ export const generateCV = () => {
     doc.setFont("helvetica", "bold");
     doc.text("2024–Present     BS Computer Science", margin, y);
     doc.setFont("helvetica", "italic");
-    doc.text(", FAST National University of Computer and Emerging", margin + 75, y);
-    y += 5;
-    doc.text("Sciences, Pakistan", margin + 75, y);
-    y += 5;
+    // Adjusted X offset to separate from date
+    doc.text(", FAST National University of Computer and Emerging", margin + 80, y);
+    y += 6;
+    doc.text("Sciences, Pakistan", margin + 80, y);
+    y += 6;
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     const coursework = "Relevant Coursework: Data Analysis, Statistical Inference, Artificial Intelligence, Database Systems, Data Structures & Algorithms, Machine Learning.";
@@ -101,14 +102,14 @@ export const generateCV = () => {
     // --- Technical Skills ---
     addSectionTitle("Technical Skills");
     SKILLS.forEach(skillCat => {
-        if (y > 280) { doc.addPage(); y = 20; }
+        if (y > 270) { doc.addPage(); y = 20; }
         doc.setFont("helvetica", "bold");
         doc.text(skillCat.category, margin, y);
         doc.setFont("helvetica", "normal");
         const skillText = `: ${skillCat.skills.join(", ")}`;
-        const splitSkill = doc.splitTextToSize(skillText, pageWidth - (margin * 2) - 40);
-        doc.text(splitSkill, margin + 35, y);
-        y += (splitSkill.length * 5) + 2;
+        const splitSkill = doc.splitTextToSize(skillText, pageWidth - (margin * 2) - 50); // increased padding
+        doc.text(splitSkill, margin + 40, y); // Increased offset
+        y += (splitSkill.length * 6) + 3;
     });
     y += 5;
 
@@ -121,32 +122,30 @@ export const generateCV = () => {
         // Date
         doc.setFont("helvetica", "normal");
         doc.setFontSize(9);
-        doc.text(exp.period.split("–")[0].trim(), margin, y); // Start date roughly
-        // We can just put the full period on left or separate it. Let's follow the image style:
-        // Date on left, generic text
+        doc.text(exp.period.split("–")[0].trim(), margin, y);
 
         // Role & Company
         doc.setFont("helvetica", "bold");
         doc.setFontSize(10);
-        // Indent role
-        doc.text(`${exp.role},`, margin + 30, y);
+        // Indent role more to avoid overlap with date
+        doc.text(`${exp.role},`, margin + 35, y);
         doc.setFont("helvetica", "italic");
-        doc.text(` ${exp.company}`, margin + 30 + doc.getTextWidth(`${exp.role},`), y);
+        doc.text(` ${exp.company}`, margin + 35 + doc.getTextWidth(`${exp.role},`), y);
 
-        y += 5;
+        y += 6;
 
         // Bullets
         doc.setFont("helvetica", "normal");
         doc.setFontSize(9);
         exp.details.forEach(detail => {
-            if (y > 280) { doc.addPage(); y = 20; }
+            if (y > 275) { doc.addPage(); y = 20; }
             const bullet = "o";
-            doc.text(bullet, margin + 30, y);
-            const splitDetail = doc.splitTextToSize(detail, pageWidth - (margin * 2) - 35);
-            doc.text(splitDetail, margin + 35, y);
-            y += (splitDetail.length * 4) + 1;
+            doc.text(bullet, margin + 35, y);
+            const splitDetail = doc.splitTextToSize(detail, pageWidth - (margin * 2) - 40);
+            doc.text(splitDetail, margin + 40, y);
+            y += (splitDetail.length * 5) + 2; // Increased line height
         });
-        y += 4;
+        y += 5;
     });
     y += 2;
 
@@ -163,23 +162,23 @@ export const generateCV = () => {
         // Title & Type
         doc.setFont("helvetica", "bold");
         doc.setFontSize(10);
-        doc.text(`${proj.title},`, margin + 30, y);
+        doc.text(`${proj.title},`, margin + 35, y);
         doc.setFont("helvetica", "italic");
-        doc.text(` Personal Project`, margin + 30 + doc.getTextWidth(`${proj.title},`), y);
-        y += 5;
+        doc.text(` Personal Project`, margin + 35 + doc.getTextWidth(`${proj.title},`), y);
+        y += 6;
 
         // Description
         doc.setFont("helvetica", "normal");
         doc.setFontSize(9);
         proj.description.forEach(desc => {
-            if (y > 280) { doc.addPage(); y = 20; }
+            if (y > 275) { doc.addPage(); y = 20; }
             const bullet = "o";
-            doc.text(bullet, margin + 30, y);
-            const splitDesc = doc.splitTextToSize(desc, pageWidth - (margin * 2) - 35);
-            doc.text(splitDesc, margin + 35, y);
-            y += (splitDesc.length * 4) + 1;
+            doc.text(bullet, margin + 35, y);
+            const splitDesc = doc.splitTextToSize(desc, pageWidth - (margin * 2) - 40);
+            doc.text(splitDesc, margin + 40, y);
+            y += (splitDesc.length * 5) + 2;
         });
-        y += 4;
+        y += 5;
     });
 
     // Footer / Page Number
