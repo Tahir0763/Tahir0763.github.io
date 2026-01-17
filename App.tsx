@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, Suspense, Component, ReactNode } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Environment, ContactShadows, useTexture } from '@react-three/drei';
+import { generateCV } from './utils/generateCV';
 import {
   Github,
   Linkedin,
@@ -569,98 +570,7 @@ export default function App() {
   };
 
   const handleDownloadCV = () => {
-    const doc = new jsPDF();
-    const margin = 20;
-    let y = 20;
-
-    // Header
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(22);
-    doc.text("TAHIR HUSSAIN", margin, y);
-    y += 10;
-
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(14);
-    doc.setTextColor(100);
-    doc.text("Data Analyst | AI Developer", margin, y);
-    y += 15;
-
-    // Contact Info
-    doc.setFontSize(10);
-    doc.setTextColor(0);
-    doc.text("Email: tahir.hussain66678@gmail.com", margin, y);
-    y += 5;
-    doc.text("Phone: +92 302 7999986", margin, y);
-    y += 5;
-    doc.text("Location: Lahore, Pakistan", margin, y);
-    y += 15;
-
-    // Education
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(12);
-    doc.text("EDUCATION", margin, y);
-    y += 7;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    doc.text("BS Computer Science - FAST-NUCES, Pakistan (2024 - Present)", margin, y);
-    y += 12;
-
-    // Experience
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(12);
-    doc.text("EXPERIENCE", margin, y);
-    y += 7;
-    doc.setFontSize(10);
-
-    EXPERIENCES.forEach(exp => {
-      doc.setFont("helvetica", "bold");
-      doc.text(`${exp.role} - ${exp.company}`, margin, y);
-      y += 5;
-      doc.setFont("helvetica", "italic");
-      doc.text(`${exp.period}`, margin, y);
-      y += 5;
-      doc.setFont("helvetica", "normal");
-      exp.details.forEach(detail => {
-        const splitText = doc.splitTextToSize(`• ${detail}`, 170);
-        doc.text(splitText, margin + 5, y);
-        y += (splitText.length * 5);
-      });
-      y += 5;
-    });
-
-    // Skills
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(12);
-    doc.text("TECHNICAL SKILLS", margin, y);
-    y += 7;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    SKILLS.forEach(skillCat => {
-      doc.text(`${skillCat.category}: ${skillCat.skills.join(", ")}`, margin, y);
-      y += 6;
-    });
-    y += 6;
-
-    // Projects
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(12);
-    doc.text("PROJECTS", margin, y);
-    y += 7;
-    doc.setFontSize(10);
-    PROJECTS.slice(0, 3).forEach(proj => {
-      doc.setFont("helvetica", "bold");
-      doc.text(proj.title, margin, y);
-      y += 5;
-      doc.setFont("helvetica", "normal");
-      proj.description.forEach(desc => {
-        const splitText = doc.splitTextToSize(`• ${desc}`, 170);
-        doc.text(splitText, margin + 5, y);
-        y += (splitText.length * 5);
-      });
-      y += 5;
-    });
-
-    doc.save("Tahir_Hussain_CV.pdf");
+    generateCV();
   };
 
   const filteredProjects = PROJECTS.filter(p => activeTab === 'All' || p.category === activeTab);
@@ -901,16 +811,38 @@ export default function App() {
                     {exp.period}
                   </div>
                 </div>
-                <ul className="space-y-4">
-                  {exp.details.map((detail, j) => (
-                    <li key={j} className="flex gap-4 text-slate-600 dark:text-slate-400 leading-relaxed max-w-4xl">
-                      <div className="mt-2.5 w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-700 flex-shrink-0"></div>
+                <ul className="space-y-3">
+                  {exp.details.map((detail, idx) => (
+                    <li key={idx} className="flex gap-3 text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                      <div className="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></div>
                       {detail}
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
+          </div>
+
+          <div className="mt-20">
+            <div className="rounded-3xl bg-indigo-600 p-8 md:p-12 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-110 transition-transform duration-700"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2 group-hover:scale-110 transition-transform duration-700"></div>
+
+              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-4">Need the full story?</h3>
+                  <p className="text-indigo-100 max-w-xl text-lg">
+                    Download my complete professional CV in PDF format for all technical details and contact information.
+                  </p>
+                </div>
+                <button
+                  onClick={handleDownloadCV}
+                  className="px-8 py-4 bg-white text-indigo-600 rounded-xl font-bold hover:bg-indigo-50 transition-all flex items-center gap-3 shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                >
+                  Download CV <Download size={20} />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
