@@ -107,12 +107,6 @@ const ThreeDProfile = () => {
   const fallbackUI = (
     <div className="w-full h-full flex items-center justify-center relative">
       <img src={`${import.meta.env.BASE_URL}hologram/front.png`} alt="Hologram Fallback" className="w-64 h-64 object-cover opacity-80 mix-blend-screen animate-pulse" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="bg-slate-900/80 p-4 rounded-xl border border-red-500/30 backdrop-blur-md text-center">
-          <div className="text-red-400 font-bold mb-1">Model Error</div>
-          <div className="text-slate-400 text-xs text-nowrap">Please provide .glb format</div>
-        </div>
-      </div>
     </div>
   );
 
@@ -149,12 +143,6 @@ const ThreeDProfile = () => {
       {/* Fallback Image Layer - Visible if model fails to load (Canvas transparent) */}
       <div className="absolute inset-0 flex items-center justify-center -z-10 opacity-50">
         <img src={`${import.meta.env.BASE_URL}hologram/front.png`} className="h-full object-contain blur-sm mix-blend-screen" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-slate-900/80 p-4 rounded-xl border border-red-500/30 backdrop-blur-md text-center shadow-2xl">
-            <div className="text-red-400 font-bold mb-1">Model Error</div>
-            <div className="text-slate-400 text-xs text-nowrap">Please provide .glb format</div>
-          </div>
-        </div>
       </div>
 
       {/* Holographic Overlay Effects */}
