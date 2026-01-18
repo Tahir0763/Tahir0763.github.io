@@ -99,16 +99,16 @@ class ModelLoaderBoundary extends Component<{ children: ReactNode, fallback: Rea
 
 // Pre-load the GLB model
 const GLBModel = () => {
-  const { scene } = useGLTF(`${import.meta.env.BASE_URL}3d_hologram/model.glb`);
+  const { scene } = useGLTF("/3d_hologram/model.glb");
   return <primitive object={scene} scale={1.8} position={[0, 0.3, 0]} />;
 };
 
-useGLTF.preload(`${import.meta.env.BASE_URL}3d_hologram/model.glb`);
+useGLTF.preload("/3d_hologram/model.glb");
 
 const ThreeDProfile = () => {
   const fallbackUI = (
     <div className="w-full h-full flex items-center justify-center relative">
-      <img src={`${import.meta.env.BASE_URL}hologram/front.png`} alt="Hologram Fallback" className="w-64 h-64 object-cover opacity-80 mix-blend-screen animate-pulse" />
+      <img src="/hologram/front.png" alt="Hologram Fallback" className="w-64 h-64 object-cover opacity-80 mix-blend-screen animate-pulse" />
     </div>
   );
 
@@ -122,6 +122,12 @@ const ThreeDProfile = () => {
           <ambientLight intensity={0.5} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
           <pointLight position={[-10, -10, -10]} intensity={0.5} color="#4f46e5" />
+
+          {/* Debug Cube to verify 3D Engine */}
+          <mesh position={[2, 0, 0]}>
+            <boxGeometry args={[0.5, 0.5, 0.5]} />
+            <meshStandardMaterial color="green" />
+          </mesh>
 
           <Suspense fallback={null}>
             <ModelLoaderBoundary fallback={null}>
